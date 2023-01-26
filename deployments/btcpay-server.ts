@@ -1,6 +1,6 @@
 import * as k8s from "@pulumi/kubernetes";
 const btcServerLabels = { app: "bitcoinserver" };
-export const btcServerDeployment = new k8s.apps.v1.Deployment("bitcoinserver", {
+export const btcServer = new k8s.apps.v1.Deployment("bitcoinserver", {
 	spec: {
 		selector: { matchLabels: btcServerLabels },
 		replicas: 1,
@@ -21,6 +21,7 @@ export const btcServerDeployment = new k8s.apps.v1.Deployment("bitcoinserver", {
 							value:
 								"trust"
 						}],
+
 					}, {
 						name: "xbxplorer",
 						image: "nicolasdorier/nbxplorer:2.3.54",

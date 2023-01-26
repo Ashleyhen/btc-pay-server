@@ -1,6 +1,6 @@
 import * as k8s from "@pulumi/kubernetes";
 const bitcoindLabels = { app: "bitcoind" };
-export const deployment = new k8s.apps.v1.Deployment("bitcoind", {
+export const bitcoind = new k8s.apps.v1.Deployment("bitcoind", {
     spec: {
         selector: { matchLabels: bitcoindLabels },
         replicas: 1,

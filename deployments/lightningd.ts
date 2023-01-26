@@ -1,6 +1,6 @@
 import * as k8s from "@pulumi/kubernetes";
 const lightingdLabels = { app: "lightningd" };
-export const lightningdDeployment = new k8s.apps.v1.Deployment("lightningd", {
+export const lightningd = new k8s.apps.v1.Deployment("lightningd", {
     spec: {
         selector: { matchLabels: lightingdLabels },
         replicas: 1,

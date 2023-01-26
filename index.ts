@@ -1,9 +1,16 @@
 import * as k8s from "@pulumi/kubernetes";
-import {deployment} from "./deployments/bitcoind";
-import {lightningdDeployment} from "./deployments/lightningd"
-import {btcServerDeployment} from "./deployments/btcpay-server"
+import {bitcoind} from "./deployments/bitcoind";
+import {lightningd} from "./deployments/lightningd"
+import {btcServer} from "./deployments/btcpay-server"
+import {torGen} from "./deployments/tor-gen"
+import {tor} from "./deployments/tor"
+
 // bitcoin set up
 
-export const bitcoind =deployment.metadata.name;
-export const lightningd=lightningdDeployment.metadata.name
-export const btcpayserver = btcServerDeployment.metadata.name;
+export const bitcoindDeploy =bitcoind.metadata.name;
+export const lightningdDeploy=lightningd.metadata.name
+export const btcpayserverDeploy = btcServer.metadata.name;
+export const torDeploy = tor.metadata.name;
+
+// export const torrcVolume  = torrPVC.metadata.name;
+export const torGenDeploy = torGen.metadata.name;
