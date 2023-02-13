@@ -53,6 +53,34 @@ services:
     links:
       - bitcoind
 
+  lightning:
+    container_name: lightning
+    restart: always
+    image: btcpayserver/lightning:v22.11.1
+    expose:
+      - 9735
+      - 11001
+    environment:
+      LIGHTNINGD_CHAIN: btc
+      LIGHTNINGD_NETWORK: regtest
+    
+    command:
+        - --network=regtest
+        - --bitcoin-rpcuser=foo
+        - --bitcoin-rpcpassword=qDDZdeQ5vw9XXFeVnXT4PZ--tGN2xNjjR4nrtyszZx0=
+        - --bitcoin-rpcport=18443
+        - --log-level=debug
+        - --grpc-port=11001
+    # entrypoint: ["/app/docker-entrypoint.sh","--network=regtest"]
+
+    # arg: |
+    #   network=regtest
+    #   bitcoin-rpcuser=foo
+    #   bitcoin-rpcpassword=qDDZdeQ5vw9XXFeVnXT4PZ--tGN2xNjjR4nrtyszZx0=
+    #   bitcoin-rpcport=18443
+    #   log-level=debug
+    #   grpc-port=11001
+
   btcpay:
     container_name: btcpay
     restart: always
@@ -67,6 +95,7 @@ services:
       BTCPAY_SOCKSENDPOINT: tor:9050
       BTCPAY_TORRCFILE: /usr/local/etc/tor/torrc-2
       BTCPAY_BTCEXPLORERURL: http://nbxplorer:32838
+      BTCPAYGEN_LIGHTNING: clightning
       HIDDENSERVICE_NAME: BTCPayServer
     volumes:
       - "btcpay_data:/datadir"
