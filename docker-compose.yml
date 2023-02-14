@@ -91,22 +91,39 @@ services:
       BTCPAY_POSTGRES: User ID=postgres;Host=postgres;Port=5432;Database=btcpayserverregtest
       BTCPAY_NETWORK: regtest
       BTCPAY_ROOTPATH: /
+      BTCPAY_PORT: 443
       BTCPAY_CHAINS: btc
+      BTCPAY_PROTOCOL: https
       BTCPAY_SOCKSENDPOINT: tor:9050
       BTCPAY_TORRCFILE: /usr/local/etc/tor/torrc-2
       BTCPAY_BTCEXPLORERURL: http://nbxplorer:32838
       BTCPAYGEN_LIGHTNING: clightning
       HIDDENSERVICE_NAME: BTCPayServer
+      BTCPAYGEN_REVERSEPROXY: nginx
     volumes:
       - "btcpay_data:/datadir"
       - "nbxplorer_data:/root/.nbxplorer"
       - "torrc_data:/usr/local/etc/tor/"
       - "torservice_data:/var/lib/tor/hidden_services"
     links:
+     - lightning
      - nbxplorer
      - postgres
      - tor
   
+  nginx:
+    container_name: nginx
+    restart: always
+    image: nginx:stable-alpine-perl
+    ports:
+      - 80:80
+      - 433:433
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - btcpay_data:/var/www/btcpayserver/Data
+      - btcpay_data:/var/www/btcpayserver/Apps
+    links:
+      - btcpay
 
 
   postgres:
